@@ -7,8 +7,7 @@ ENV USER root
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -q -y update && \
-    apt-get -q -y install locales \
-                          $MATE_PACKAGE \
+    apt-get -q -y install $MATE_PACKAGE \
                           tightvncserver \
                           openssh-server \
                           git && \
