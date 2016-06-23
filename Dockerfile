@@ -18,7 +18,7 @@ RUN apt-get -q -y update && \
 
 ADD app-sh.sh /bin/app-sh.sh
 RUN useradd -ms /bin/app-sh.sh app && \
-    su - app -s /bin/sh -c "mkdir -p ~/.config/autostart"
+    su -l -s /bin/sh -c "mkdir -p ~/.config/autostart" app
 ADD autostart_ssh-app.desktop /home/app/.config/autostart/autostart_ssh-app.desktop
 
 ADD ssh-app.sh /bin/ssh-app.sh
