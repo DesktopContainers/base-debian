@@ -7,7 +7,7 @@ else
   esac
 fi
 
-if [ "$SESSION_TYPE" == "remote/ssh" ]; then
+if [ "$SESSION_TYPE" = "remote/ssh" ]; then
 	/bin/ssh-app.sh
 else
 	/bin/bash
