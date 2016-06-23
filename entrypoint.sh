@@ -16,11 +16,19 @@ if [ ! -f "$INITIALIZED" ]; then
 		sed -i '1iauth sufficient pam_permit.so' /etc/pam.d/sshd
 	fi
 	
-	if [ -z ${DISABLE_VNC+x} ] && [ ! -z ${VNC_PASSWORD+x} ]; then
-		echo ">> setting new VNC password"
-		echo "$VNC_PASSWORD" | vncpasswd -f > /root/.vnc/passwd
-		unset VNC_PASSWORD
+	if [ ! -z ${VNC_PASSWORD+x} ]; then
+		VNC_PASSWORD="debian"
 	fi
+
+	if [ -z ${DISABLE_VNC+x} ]; then
+		echo ">> setting new VNC password"
+		su - app -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd"
+		su - app -c "mkdir ~/Desktop; ln -s /bin/ssh-app.sh ~/Desktop/Start\ App.sh"
+	else
+		su - app -c "rm ~/.vnc/passwd"
+	fi
+	
+	unset VNC_PASSWORD
 
 	if [ -z ${DISABLE_VNC+x} ] && [ -z ${DISABLE_WEBSOCKIFY+x} ] && [ ! -z ${ENABLE_SSL+x} ]; then
 		echo ">> enabling SSL"
@@ -70,7 +78,7 @@ if [ -z ${DISABLE_VNC+x} ]; then
 	fi
 
 	echo ">> staring vncserver ($VNC_SCREEN_RESOLUTION) :1 on port 5901"
-	vncserver :1 -geometry "$VNC_SCREEN_RESOLUTION" -depth 24
+	su - app -c "export USER=app; vncserver :1 -geometry \"$VNC_SCREEN_RESOLUTION\" -depth 24"
 
 	sleep 2
 
