@@ -20,7 +20,7 @@ Because I want base system which runs nearly everywhere.
 * __DISABLE\_VNC__
  * set this to any value e.g. true to disable VNC Server -> Port 5901
 * __VNC\_PASSWORD__
- * default: _debian_ use custom password for VNC
+ * default: _desktopcontainers_ use custom password for VNC
 * __VNC\_SCREEN\_RESOLUTION__
  * default: _1280x800_
 * __DISABLE\_WEBSOCKIFY__
@@ -51,7 +51,7 @@ Connect to the container.  In the vnc connection string, type this:
 
 "ipaddress:1"
 
-The default password is "debian".
+The default password is "desktopcontainers".
 
 # Notes
 ## Packages
