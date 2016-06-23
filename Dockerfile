@@ -28,4 +28,4 @@ EXPOSE 5901 80 22
 ADD entrypoint.sh /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
-CMD ["tail", "-F", "/home/app/.vnc/*.log", "/var/log/*.log"]
+CMD ["tail", "-F", "/home/app/.vnc/*.log", "/var/log/dmesg"]
