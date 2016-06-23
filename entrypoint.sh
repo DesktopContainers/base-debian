@@ -22,8 +22,8 @@ if [ ! -f "$INITIALIZED" ]; then
 
 	if [ -z ${DISABLE_VNC+x} ]; then
 		echo ">> setting new VNC password"
-		su - app -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd"
-		su - app -s /bin/sh -c "mkdir ~/Desktop; ln -s /bin/ssh-app.sh ~/Desktop/Start\ App.sh"
+		su -l -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd" app
+		su -l -s /bin/sh -c "mkdir ~/Desktop; ln -s /bin/ssh-app.sh ~/Desktop/Start\ App.sh" app
 	fi
 	
 	unset VNC_PASSWORD
@@ -76,7 +76,7 @@ if [ -z ${DISABLE_VNC+x} ]; then
 	fi
 
 	echo ">> staring vncserver ($VNC_SCREEN_RESOLUTION) :1 on port 5901"
-	su - app -s /bin/sh -c "export USER=app; vncserver :1 -geometry \"$VNC_SCREEN_RESOLUTION\" -depth 24"
+	su -l -s /bin/sh -c "export USER=app; vncserver :1 -geometry \"$VNC_SCREEN_RESOLUTION\" -depth 24" app
 
 	sleep 2
 
