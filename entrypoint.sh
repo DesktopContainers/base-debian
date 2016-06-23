@@ -16,8 +16,8 @@ if [ ! -f "$INITIALIZED" ]; then
 		sed -i '1iauth sufficient pam_permit.so' /etc/pam.d/sshd
 	fi
 	
-	if [ ! -z ${VNC_PASSWORD+x} ]; then
-		VNC_PASSWORD="desktopcontainers"
+	if [ -z ${VNC_PASSWORD+x} ]; then
+		VNC_PASSWORD="debian"
 	fi
 
 	if [ -z ${DISABLE_VNC+x} ]; then
