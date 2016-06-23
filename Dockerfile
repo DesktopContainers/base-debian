@@ -17,7 +17,9 @@ RUN apt-get -q -y update && \
     rm -rf /opt/websockify/.git
 
 ADD app-sh.sh /bin/app-sh.sh
-RUN useradd -ms /bin/app-sh.sh app
+RUN useradd -ms /bin/app-sh.sh app && \
+    su - app -c "mkdir -p ~/.config/autostart"
+ADD autostart_ssh-app.desktop /home/app/.config/autostart/autostart_ssh-app.desktop
 
 ADD ssh-app.sh /bin/ssh-app.sh
 

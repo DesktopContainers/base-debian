@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Default SSH Application
+Exec=/bin/ssh-app.sh
