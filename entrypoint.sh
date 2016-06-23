@@ -24,8 +24,6 @@ if [ ! -f "$INITIALIZED" ]; then
 		echo ">> setting new VNC password"
 		su - app -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd"
 		su - app -c "mkdir ~/Desktop; ln -s /bin/ssh-app.sh ~/Desktop/Start\ App.sh"
-	else
-		su - app -c "rm ~/.vnc/passwd"
 	fi
 	
 	unset VNC_PASSWORD
