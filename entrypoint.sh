@@ -17,12 +17,12 @@ if [ ! -f "$INITIALIZED" ]; then
 	fi
 	
 	if [ ! -z ${VNC_PASSWORD+x} ]; then
-		VNC_PASSWORD="debian"
+		VNC_PASSWORD="desktopcontainers"
 	fi
 
 	if [ -z ${DISABLE_VNC+x} ]; then
 		echo ">> setting new VNC password"
-		su -l -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd" app
+		su -l -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd; chmod 600 ~/.vnc/passwd " app
 		su -l -s /bin/sh -c "mkdir ~/Desktop; ln -s /bin/ssh-app.sh ~/Desktop/Start\ App.sh" app
 	fi
 	
