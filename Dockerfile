@@ -17,9 +17,9 @@ RUN apt-get -q -y update && \
     rm -rf /opt/websockify/.git
 
 ADD app-sh.sh /bin/app-sh.sh
-ADD ssh-app.sh /bin/ssh-app.sh
-
 RUN useradd -ms /bin/app-sh.sh app
+
+ADD ssh-app.sh /bin/ssh-app.sh
 
 EXPOSE 5901 80 22
 
