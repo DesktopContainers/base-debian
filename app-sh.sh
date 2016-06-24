@@ -8,6 +8,7 @@ else
 fi
 
 if [ "$SESSION_TYPE" = "remote/ssh" ]; then
+	kill $(pstree -p $(pgrep xstartup) | grep app | cut -d "(" -f3 | cut -d ")" -f1) 2> /dev/null > /dev/null
 	exec /bin/ssh-app.sh
 else
 	exec /bin/bash -l
