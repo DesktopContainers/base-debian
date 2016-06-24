@@ -24,7 +24,7 @@ if [ ! -f "$INITIALIZED" ]; then
 		echo ">> setting new VNC password"
 		su -l -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd; chmod 600 ~/.vnc/passwd " app
 		chown app:app /home/app/.config/autostart/autostart_ssh-app.desktop
-		su -l -s /bin/sh -c "mkdir ~/Desktop; ln -s ~/.config/autostart/autostart_ssh-app.desktop ~/Desktop/Start\ App.desktop" app
+		su -l -s /bin/sh -c "mkdir ~/Desktop; cp ~/.config/autostart/autostart_ssh-app.desktop ~/Desktop/Start\ App.desktop" app
 	fi
 	
 	unset VNC_PASSWORD
@@ -91,6 +91,8 @@ if [ -z ${DISABLE_SSHD+x} ]; then
 	echo ">> starting sshd on port 22"
 	/usr/sbin/sshd
 fi
+
+sleep 3
 
 # exec CMD
 echo ">> exec docker CMD"
