@@ -23,7 +23,7 @@ if [ ! -f "$INITIALIZED" ]; then
 	if [ -z ${DISABLE_VNC+x} ]; then
 		echo ">> setting new VNC password"
 		su -l -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd; chmod 600 ~/.vnc/passwd " app
-		su -l -s /bin/sh -c "mkdir ~/Desktop; ln -s /bin/ssh-app.sh ~/Desktop/Start\ App.sh" app
+		su -l -s /bin/sh -c "mkdir ~/Desktop; ln -s ~/.config/autostart/autostart_ssh-app.desktop ~/Desktop/Start_App.desktop" app
 	fi
 	
 	unset VNC_PASSWORD
