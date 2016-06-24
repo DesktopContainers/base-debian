@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Name=Default SSH Application
-Exec=/bin/ssh-app.sh
+Name=Start Application
+Exec=ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X app@localhost
