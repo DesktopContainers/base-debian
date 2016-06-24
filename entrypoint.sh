@@ -25,6 +25,11 @@ if [ ! -f "$INITIALIZED" ]; then
 		su -l -s /bin/sh -c "touch ~/.Xresources; mkdir ~/.vnc; echo \"$VNC_PASSWORD\" | vncpasswd -f > ~/.vnc/passwd; chmod 600 ~/.vnc/passwd " app
 		chown app:app /home/app/.config/autostart/autostart_ssh-app.desktop
 		su -l -s /bin/sh -c "mkdir ~/Desktop; cp ~/.config/autostart/autostart_ssh-app.desktop ~/Desktop/Start\ App.desktop" app
+
+		if [ ! -z ${DISABLE_SSHD+x} ]; then
+			echo ">> disabled sshd - fixing autostart"
+			su -l -s /bin/sh -c "sed -i 's,ssh.*,/bin/ssh-app.sh,g' ~/Desktop/Start\ App.desktop ~/.config/autostart/autostart_ssh-app.desktop" app
+		fi
 	fi
 	
 	unset VNC_PASSWORD
