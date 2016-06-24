@@ -71,6 +71,11 @@ if [ ! -f "$INITIALIZED" ]; then
 	fi
 fi
 
+if [ -z ${DISABLE_SSHD+x} ]; then
+	echo ">> starting sshd on port 22"
+	/usr/sbin/sshd
+fi
+
 if [ -z ${DISABLE_VNC+x} ]; then
 	if [ -z ${VNC_SCREEN_RESOLUTION+x} ]; then
 		VNC_SCREEN_RESOLUTION="1280x800"
@@ -86,13 +91,6 @@ if [ -z ${DISABLE_VNC+x} ]; then
 		/opt/websockify/run -D 80 $SSL_ONLY ${SSL_CERT:+--cert ${SSL_CERT}} localhost:5901
 	fi
 fi
-
-if [ -z ${DISABLE_SSHD+x} ]; then
-	echo ">> starting sshd on port 22"
-	/usr/sbin/sshd
-fi
-
-sleep 3
 
 # exec CMD
 echo ">> exec docker CMD"
