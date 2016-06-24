@@ -1,4 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=Start Application
+GenericName=Start Application
 Exec=ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X app@localhost
