@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cat <<EOF
-Welcome to the desktopcontainers/debian-desktop container
+Welcome to the desktopcontainers/base-debian container
 EOF
 
 # only on container boot

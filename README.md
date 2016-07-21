@@ -1,13 +1,11 @@
-# Debian MATE Desktop
+# Debian VNC/Websockify/SSH Desktopcontainers Base Image
 
-A dockerfile that builds debian jessie and the MATE desktop environment.
+A dockerfile that builds debian jessie with VNC, websockify and ssh Server.
 
 This is build as base image for various desktop applications.
 
 The applications will be available as VNC, Websockify VNC, SSH or Host X11.
 You can change the behaviour via environment variables. So the User can decide how he wants to use the application.
-
-Note: Only with VNC or Websockify VNC the user will see the Mate Desktop, all other methods draw the application to the users X11.
 
 Base image: _/debian:jessie
 Because I want base system which runs nearly everywhere.
@@ -52,12 +50,3 @@ Connect to the container.  In the vnc connection string, type this:
 "ipaddress:1"
 
 The default password is "debian".
-
-# Notes
-## Packages
-* MATE (full + extras)
- * mate-desktop-environment-extras
-* MATE (full)
- * mate-desktop-environment
-* MATE (core)
- * mate-desktop-environment-core

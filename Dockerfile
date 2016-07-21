@@ -1,13 +1,10 @@
 FROM debian:jessie
 
-ENV MATE_PACKAGE mate-desktop-environment
-
 ENV LANG C.UTF-8
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -q -y update && \
-    apt-get -q -y install $MATE_PACKAGE \
-                          tightvncserver \
+    apt-get -q -y install tightvncserver \
                           openssh-server \
                           git && \
     apt-get -q -y clean && \
@@ -18,9 +15,7 @@ RUN apt-get -q -y update && \
     rm -rf /opt/websockify/.git
 
 ADD app-sh.sh /bin/app-sh.sh
-RUN useradd -ms /bin/app-sh.sh app && \
-    su -l -s /bin/sh -c "mkdir -p ~/.config/autostart" app
-ADD autostart_ssh-app.desktop /home/app/.config/autostart/autostart_ssh-app.desktop
+RUN useradd -ms /bin/app-sh.sh app
 
 ADD ssh-app.sh /bin/ssh-app.sh
 
