@@ -87,7 +87,7 @@ if [ -z ${DISABLE_VNC+x} ]; then
 	fi
 
 	echo ">> staring vncserver ($VNC_SCREEN_RESOLUTION) :1 on port 5901"
-	su -l -s /bin/sh -c "vncserver :1 -geometry \"$VNC_SCREEN_RESOLUTION\" -depth 24" app
+	su -s /bin/sh -c "vncserver :1 -geometry \"$VNC_SCREEN_RESOLUTION\" -depth 24" app
 
 	sleep 2
 
