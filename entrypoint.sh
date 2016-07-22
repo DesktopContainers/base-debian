@@ -83,7 +83,7 @@ fi
 
 if [ -z ${DISABLE_VNC+x} ]; then
 	if [ -z ${VNC_SCREEN_RESOLUTION+x} ]; then
-		VNC_SCREEN_RESOLUTION="1280x800"
+		export VNC_SCREEN_RESOLUTION="1280x800"
 	fi
 
 	echo ">> staring vncserver ($VNC_SCREEN_RESOLUTION) :1 on port 5901"
