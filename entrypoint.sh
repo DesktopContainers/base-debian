@@ -98,6 +98,6 @@ if [ -z ${DISABLE_VNC+x} ]; then
 fi
 
 # exec CMD
-echo ">> exec docker CMD"
+echo ">> run docker CMD as user 'app'"
 echo "$@"
-exec "$@"
+su -s /bin/sh -c "$@" app
