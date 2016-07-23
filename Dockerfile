@@ -4,8 +4,7 @@ ENV LANG C.UTF-8
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -q -y update && \
-    apt-get -q -y install sudo \
-                          python \
+    apt-get -q -y install python \
                           tightvncserver \
                           openssh-server \
                           git && \

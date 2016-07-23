@@ -100,4 +100,4 @@ fi
 # exec CMD
 echo ">> run docker CMD as user 'app'"
 echo "$@"
-su -s /bin/sh -c "$@" app
+exec su -s /bin/sh -c "exec $@" app
