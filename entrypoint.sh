@@ -99,5 +99,5 @@ fi
 
 # exec CMD
 echo ">> run docker CMD as user 'app'"
-echo "$*"
-exec su -s /bin/sh -c "exec $*" app
+echo "$@"
+su -s /bin/sh -c "$@" app
