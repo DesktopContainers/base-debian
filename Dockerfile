@@ -13,7 +13,10 @@ RUN apt-get -q -y update && \
     sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list; \
     \
     git clone https://github.com/kanaka/websockify.git /opt/websockify && \
-    rm -rf /opt/websockify/.git
+    rm -rf /opt/websockify/.git; \
+    \
+    touch /var/log/null && \
+    chmod 444 /var/log/null
 
 ADD app-sh.sh /bin/app-sh.sh
 RUN useradd -ms /bin/app-sh.sh app
@@ -25,4 +28,4 @@ EXPOSE 5901 80 22
 ADD entrypoint.sh /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
-CMD ["/bin/bash", "-c", "tail -F /home/app/.vnc/*.log /var/log/dmesg"]
+CMD ["/bin/bash", "-c", "tail -F /var/log/null /home/app/.vnc/*.log"]
