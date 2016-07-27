@@ -99,5 +99,6 @@ fi
 
 # exec CMD
 echo ">> run docker CMD as user 'app'"
-echo "$@"
+echo "su -s /bin/sh -c \"$@\" app"
 su -s /bin/sh -c "$@" app
+echo "exit code: $?"
