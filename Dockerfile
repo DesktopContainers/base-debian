@@ -1,5 +1,7 @@
 FROM debian:jessie
 
+MAINTAINER MarvAmBass (https://github.com/DesktopContainers)
+
 ENV LANG C.UTF-8
 
 ENV DEBIAN_FRONTEND noninteractive
