@@ -93,7 +93,7 @@ if [ -z ${DISABLE_VNC+x} ]; then
 
 	if [ -z ${DISABLE_WEBSOCKIFY+x} ]; then
 		echo ">> starting websockify on port 80"
-		/opt/websockify/run -D 80 $SSL_ONLY ${SSL_CERT:+--cert ${SSL_CERT}} localhost:5901
+		/opt/websockify/run 80 $SSL_ONLY ${SSL_CERT:+--cert ${SSL_CERT}} localhost:5901 &
 	fi
 fi
 
