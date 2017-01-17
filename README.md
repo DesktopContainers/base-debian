@@ -13,7 +13,7 @@ Because I want base system which runs nearly everywhere.
 # Environment variables and defaults
 
 * __DISABLE\_SSHD__
- * set this to any value e.g. true to disable SSHD -> Port 22 
+ * set this to any value e.g. true to disable SSHD -> Port 22
   * _ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X root@$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' containername) [...]_
 * __DISABLE\_VNC__
  * set this to any value e.g. true to disable VNC Server -> Port 5901
@@ -32,12 +32,26 @@ Because I want base system which runs nearly everywhere.
  * set this to any value e.g. true to set SSL only for Websockify Server
 * __SSL\_CERT__
  * default: _/opt/websockify/self.pem_ path to cert with included key
-* __SSL\_SIZE__ 
+* __SSL\_SIZE__
  * default: _4086_ keysize
 * __SSL\_DAYS__
  * default: _3650_ ssl cert lifetime in days
 * __SSL\_SUBJECT__
  * default: _/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=localhost_ ssl cert subject
+
+## Proxy Environment variables and defaults
+
+* __HTTP\_PROXY__
+ * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTP_PROXY and http_proxy
+* __HTTPS\_PROXY__
+  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTPS_PROXY and https_proxy
+* __FTP\_PROXY__
+  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables FTP_PROXY and ftp_proxy
+* __NO\_PROXY__
+  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables NO_PROXY and no_proxy
+* __APT\_PROXY__
+  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy inside apt configuration
+
 
 # Usage
 

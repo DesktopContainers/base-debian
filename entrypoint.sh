@@ -8,14 +8,14 @@ EOF
 INITIALIZED="/.initialized"
 if [ ! -f "$INITIALIZED" ]; then
 	touch "$INITIALIZED"
-	
+
 	if [ -z ${DISABLE_SSHD+x} ]; then
 		echo ">> preparations for SSHD"
 		mkdir /var/run/sshd
 		sed -i 's,^ *PermitEmptyPasswords .*,PermitEmptyPasswords yes,' /etc/ssh/sshd_config
 		sed -i '1iauth sufficient pam_permit.so' /etc/pam.d/sshd
 	fi
-	
+
 	if [ -z ${VNC_PASSWORD+x} ]; then
 		VNC_PASSWORD="debian"
 	fi
@@ -31,12 +31,32 @@ if [ ! -f "$INITIALIZED" ]; then
 			su -l -s /bin/sh -c "sed -i 's,ssh.*,/bin/ssh-app.sh,g' ~/Desktop/Start\ App.desktop ~/.config/autostart/autostart_ssh-app.desktop" app
 		fi
 	fi
-	
+
 	unset VNC_PASSWORD
+
+	if [ ! -z ${HTTP_PROXY+x} ]; then
+		echo "HTTP_PROXY=$HTTP_PROXY" >> /etc/environment
+		echo "http_proxy=$HTTP_PROXY" >> /etc/environment
+	fi
+	if [ ! -z ${HTTPS_PROXY+x} ]; then
+		echo "HTTPS_PROXY=$HTTPS_PROXY" >> /etc/environment
+		echo "https_proxy=$HTTPS_PROXY" >> /etc/environment
+	fi
+	if [ ! -z ${FTP_PROXY+x} ]; then
+		echo "FTP_PROXY=$FTP_PROXY" >> /etc/environment
+		echo "ftp_proxy=$FTP_PROXY" >> /etc/environment
+	fi
+	if [ ! -z ${NO_PROXY+x} ]; then
+		echo "NO_PROXY=$NO_PROXY" >> /etc/environment
+		echo "no_proxy=$NO_PROXY" >> /etc/environment
+	fi
+	if [ ! -z ${APT_PROXY+x} ]; then
+		echo "Acquire::http::Proxy \"$APT_PROXY\";" >> /etc/apt/apt.conf.d/99custom_proxy
+	fi
 
 	if [ -z ${DISABLE_VNC+x} ] && [ -z ${DISABLE_WEBSOCKIFY+x} ] && [ ! -z ${ENABLE_SSL+x} ]; then
 		echo ">> enabling SSL"
-		
+
 		if [ ! -z ${SSL_ONLY+x} ]; then
 			echo ">> enable SSL only"
 			SSL_ONLY="--ssl-only"
@@ -45,19 +65,19 @@ if [ ! -f "$INITIALIZED" ]; then
 		if [ -z ${SSL_SUBJECT+x} ]; then
 			SSL_SUBJECT="/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=localhost";
 		fi
-		
+
 		if [ -z ${SSL_DAYS+x} ]; then
 			SSL_DAYS="3650";
 		fi
-	
+
 		if [ -z ${SSL_SIZE+x} ]; then
 			SSL_SIZE="4086";
 		fi
-	
+
 		if [ -z ${SSL_CERT+x} ]; then
 			SSL_CERT="/opt/websockify/self.pem";
 		fi
-		
+
 		if [ ! -f "$SSL_CERT" ]; then
 			echo ">> generating self signed cert"
 			echo ">> >>    DAYS: $SSL_DAYS"
