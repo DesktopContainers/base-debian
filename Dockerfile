@@ -14,6 +14,8 @@ RUN apt-get -q -y update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list; \
     \
+    echo "X11UseLocalhost no" >> /etc/ssh/sshd_config; \
+    \
     git clone https://github.com/kanaka/websockify.git /opt/websockify && \
     rm -rf /opt/websockify/.git; \
     \
