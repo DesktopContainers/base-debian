@@ -8,7 +8,7 @@ else
 fi
 
 if [ "$SESSION_TYPE" = "remote/ssh" ]; then
-	exec /bin/ssh-app.sh
+	exec /usr/local/bin/ssh-app.sh
 else
 	exec /bin/bash -l
 fi
