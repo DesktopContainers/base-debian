@@ -12,14 +12,14 @@ Because I want a base system which runs nearly anything and everywhere.
 
 # Environment variables and defaults
 
-* __DISABLE\_SSHD__
- * set this to any value e.g. true to disable SSHD -> Port 22
-  * _ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X root@$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' containername) [...]_
-* __DISABLE\_VNC__
- * set this to any value e.g. true to disable VNC Server -> Port 5901
-* __DISABLE\_WEBSOCKIFY__
- * set this to any value e.g. true to disable Websockify Server -> Port http 80 or https 443
- * just open a webbrowser and connect to the container
+- __DISABLE\_SSHD__
+    - set this to any value e.g. true to disable SSHD -> Port 22
+    - _ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X root@$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' containername) [...]_
+- __DISABLE\_VNC__
+    - set this to any value e.g. true to disable VNC Server -> Port 5901
+- __DISABLE\_WEBSOCKIFY__
+    - set this to any value e.g. true to disable Websockify Server -> Port http 80 or https 443
+    - just open a webbrowser and connect to the container
 
 - __ENABLE\_SUDO__
     - set this to _enable_ to allow the user to use sudo
@@ -37,16 +37,16 @@ If you don't provide any certificate, a self signed cert will be created on cont
 
 ## Proxy Environment variables and defaults
 
-* __HTTP\_PROXY__
- * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTP_PROXY and http_proxy
-* __HTTPS\_PROXY__
-  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTPS_PROXY and https_proxy
-* __FTP\_PROXY__
-  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables FTP_PROXY and ftp_proxy
-* __NO\_PROXY__
-  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables NO_PROXY and no_proxy
-* __APT\_PROXY__
-  * set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy inside apt configuration
+- __HTTP\_PROXY__
+    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTP_PROXY and http_proxy
+- __HTTPS\_PROXY__
+    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTPS_PROXY and https_proxy
+- __FTP\_PROXY__
+    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables FTP_PROXY and ftp_proxy
+- __NO\_PROXY__
+    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables NO_PROXY and no_proxy
+- __APT\_PROXY__
+    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy inside apt configuration
 
 
 # Usage
