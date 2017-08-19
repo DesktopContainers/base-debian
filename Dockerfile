@@ -40,7 +40,7 @@ RUN apt-get -q -y update \
  && echo ">> SSHD" \
  && mkdir -p /var/run/sshd \
  && echo "X11UseLocalhost no" >> /etc/ssh/sshd_config \
- && sed -i 's,^ *PermitEmptyPasswords .*,PermitEmptyPasswords yes,' /etc/ssh/sshd_config \
+ && sed -i 's,^.*PermitEmptyPasswords .*,PermitEmptyPasswords yes,' /etc/ssh/sshd_config \
  && sed -i '1iauth sufficient pam_permit.so' /etc/pam.d/sshd
 
 COPY scripts /usr/local/bin
