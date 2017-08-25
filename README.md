@@ -25,6 +25,25 @@ Because I want a base system which runs nearly anything and everywhere.
     - set this to _enable_ to allow the user to use sudo
     - default: not set
 
+- __VNC\_SCREEN\_RESOLUTION__
+    - set this to a specific resolution like '1280x1024' if you want a specific default one (can also be changed at runtime)
+    - default: not set
+    - possible values:
+        - 640x480
+        - 800x600
+        - 1024x768
+	- 1280x1024
+	- 1280x720
+	- 1280x800
+	- 1280x960
+	- 1360x768
+	- 1400x1050
+	- 1600x1200
+	- 1680x1050
+	- 1900x1200
+        - 1920x1080
+	- 1920x1200
+
 ## Websockify SSL
 
 to use a custom ssl certificate just add them as files:

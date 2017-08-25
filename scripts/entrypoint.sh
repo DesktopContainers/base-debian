@@ -25,6 +25,18 @@ Keywords=mate-control-center;MATE;resolution;position;monitors;display;propertie
 OnlyShowIn=MATE;
 EOF
 
+if echo "$VNC_SCREEN_RESOLUTION" | grep 'x' 2>/dev/null >/dev/null; then
+echo ">> set default resolution to: $VNC_SCREEN_RESOLUTION"
+cat <<EOF > /home/app/.config/autostart/autostart_custom_resolution.desktop
+[Desktop Entry]
+Type=Application
+Icon=application-x-executable
+Name=Custom Resolution
+GenericName=Custom Resolution 
+Exec=/bin/bash -c "xrandr --output VNC-0 --mode $VNC_SCREEN_RESOLUTION"
+EOF
+fi
+
 cat <<EOF > /home/app/.config/autostart/autostart_custom_settings.desktop
 [Desktop Entry]
 Type=Application
