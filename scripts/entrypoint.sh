@@ -112,7 +112,7 @@ EOF
   echo -e '#!/bin/sh\nexec /usr/sbin/rsyslogd -n' > /etc/sv/rsyslog/run
     echo -e '#!/bin/sh\nrm /var/run/rsyslogd.pid' > /etc/sv/rsyslog/finish
 	echo -e "#!/bin/sh\nexec /usr/sbin/sshd -D" > /etc/sv/sshd/run
-	echo -e "#!/bin/sh\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg\" app" > /etc/sv/tigervnc/run
+	echo -e "#!/bin/sh\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg --I-KNOW-THIS-IS-INSECURE\" app" > /etc/sv/tigervnc/run
   echo -e "#!/bin/sh\nexec /opt/websockify/run 443 --web /opt/novnc/ --ssl-only --cert /config/ssl-cert.crt --key /config/ssl-cert.key localhost:5901" > /etc/sv/websockify-ssl/run
   echo -e "#!/bin/sh\nexec /opt/websockify/run 80 --web /opt/novnc/ localhost:5901" > /etc/sv/websockify/run
   chmod a+x /etc/sv/*/run /etc/sv/*/finish
@@ -128,6 +128,7 @@ EOF
 
 	if [ -z ${DISABLE_VNC+x} ]; then
 		echo "  >> enabling tigervnc"
+		sed -i 's/^1;/$localhost = "no";\n1;/g' /etc/vnc.conf
 	  ln -s /etc/sv/tigervnc /etc/service/tigervnc
 		if [ -z ${DISABLE_WEBSOCKIFY+x} ]; then
 			echo "  >> enabling websockify"
