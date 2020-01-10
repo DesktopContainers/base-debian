@@ -1,14 +1,14 @@
 # Debian VNC/Websockify/SSH Desktopcontainers Base Image
 
-A dockerfile that builds debian stretch with VNC, websockify and ssh Server.
+A dockerfile that builds debian latest with VNC, websockify and ssh Server and firefox-esr
 
 This is build as base image for various desktop applications.
 
 The applications will be available as VNC, Websockify VNC, Web (noVNC), SSH or Host X11.
 You can change the behaviour via environment variables. So the User can decide how he wants to use the application.
 
-Base image: _/debian:stretch_
-Because I want a base system which runs nearly anything and everywhere.
+Base image: _/debian:latest_
+Because I want an up to date base system which runs nearly anything and everywhere.
 
 # Environment variables and defaults
 
