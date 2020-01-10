@@ -8,6 +8,7 @@ RUN apt-get -q -y update \
  && apt-get -q -y install runit \
                           rsyslog \
                           wget \
+                          nano \
                           python \
                           python-numpy \
                           \
