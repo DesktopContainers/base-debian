@@ -10,19 +10,20 @@ if [ ! -f "$INITIALIZED" ]; then
 	touch "$INITIALIZED"
 
   echo ">> adding desktop files"
-cat <<EOF > /home/app/Desktop/mate-display-properties.desktop
+  ### New format required for :latest ###
+cat <<EOF > /home/app/Desktop/Displays.desktop
 #!/usr/bin/env xdg-open
 [Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon=mate-preferences-desktop-display
+Icon[C]=mate-panel-launcher
+Name[C]=Displays
+Exec=/usr/bin/mate-display-properties
+Comment[C]=Change resolution and position of monitors and projectors
 Name=Displays
 Comment=Change resolution and position of monitors and projectors
-Exec=mate-display-properties
-Icon=mate-preferences-desktop-display
-Terminal=false
-Type=Application
-StartupNotify=true
-Categories=GTK;Settings;HardwareSettings;
-Keywords=mate-control-center;MATE;resolution;position;monitors;display;properties;
-OnlyShowIn=MATE;
 EOF
 
 if echo "$VNC_SCREEN_RESOLUTION" | grep 'x' 2>/dev/null >/dev/null; then
@@ -46,18 +47,25 @@ GenericName=Custom Settings
 Exec=gconf-settings.sh
 EOF
 
+### New format required for :latest ###
 cat <<EOF > /home/app/.config/autostart/autostart_ssh-app.desktop
+#!/usr/bin/env xdg-open
 [Desktop Entry]
+Version=1.0
 Type=Application
+Terminal=false
 Icon=application-x-executable
-Name=Start Application
-GenericName=Start Application
+Icon[C]=mate-panel-launcher
+Name[C]=Start Application
 Exec=ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X app@localhost
+Name=Start Application
 EOF
+
   cp /home/app/.config/autostart/autostart_ssh-app.desktop /home/app/Desktop/Start\ App.desktop
 
 	chown app:app /home/app/.config/autostart/*.desktop /home/app/Desktop/*.desktop
-
+	### Also need to make them executable in :latest
+	chmod +x /home/app/.config/autostart/*.desktop /home/app/Desktop/*.desktop
 
 	if [ ! -z ${DISABLE_SSHD+x} ]; then
 		echo ">> disabled sshd - fixing autostart"
@@ -106,16 +114,15 @@ EOF
 	###
   # RUNIT
   ###
-  #
-  # Added cleanup below when starting vncserver to work round
-  # issue when restarting a container and vncserver does not close cleanly
-  #
+  ###  Fix issues with unclean termination of vncserver when restarting
+  ###  container, also re-inforce no-localhost, as this seems to break when upgrading to :latest.
+  
   echo ">> RUNIT - create services"
   mkdir -p /etc/sv/rsyslog /etc/sv/sshd /etc/sv/tigervnc /etc/sv/websockify /etc/sv/websockify-ssl
   echo -e '#!/bin/sh\nexec /usr/sbin/rsyslogd -n' > /etc/sv/rsyslog/run
     echo -e '#!/bin/sh\nrm /var/run/rsyslogd.pid' > /etc/sv/rsyslog/finish
 	echo -e "#!/bin/sh\nexec /usr/sbin/sshd -D" > /etc/sv/sshd/run
-	echo -e "#!/bin/sh\nrm -rif /tmp/.X*\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg -localhost no --I-KNOW-THIS-IS-INSECURE\" app" > /etc/sv/tigervnc/run
+	echo -e "#!/bin/sh\nrm -rif /tmp/.X1*\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg -localhost no --I-KNOW-THIS-IS-INSECURE\" app" > /etc/sv/tigervnc/run
   echo -e "#!/bin/sh\nexec /opt/websockify/run 443 --web /opt/novnc/ --ssl-only --cert /config/ssl-cert.crt --key /config/ssl-cert.key localhost:5901" > /etc/sv/websockify-ssl/run
   echo -e "#!/bin/sh\nexec /opt/websockify/run 80 --web /opt/novnc/ localhost:5901" > /etc/sv/websockify/run
   chmod a+x /etc/sv/*/run /etc/sv/*/finish
