@@ -106,13 +106,16 @@ EOF
 	###
   # RUNIT
   ###
-
+  #
+  # Added cleanup below when starting vncserver to work round
+  # issue when restarting a container and vncserver does not close cleanly
+  #
   echo ">> RUNIT - create services"
   mkdir -p /etc/sv/rsyslog /etc/sv/sshd /etc/sv/tigervnc /etc/sv/websockify /etc/sv/websockify-ssl
   echo -e '#!/bin/sh\nexec /usr/sbin/rsyslogd -n' > /etc/sv/rsyslog/run
     echo -e '#!/bin/sh\nrm /var/run/rsyslogd.pid' > /etc/sv/rsyslog/finish
 	echo -e "#!/bin/sh\nexec /usr/sbin/sshd -D" > /etc/sv/sshd/run
-	echo -e "#!/bin/sh\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg --I-KNOW-THIS-IS-INSECURE\" app" > /etc/sv/tigervnc/run
+	echo -e "#!/bin/sh\nrm -rif /tmp/.X*\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg --I-KNOW-THIS-IS-INSECURE\" app" > /etc/sv/tigervnc/run
   echo -e "#!/bin/sh\nexec /opt/websockify/run 443 --web /opt/novnc/ --ssl-only --cert /config/ssl-cert.crt --key /config/ssl-cert.key localhost:5901" > /etc/sv/websockify-ssl/run
   echo -e "#!/bin/sh\nexec /opt/websockify/run 80 --web /opt/novnc/ localhost:5901" > /etc/sv/websockify/run
   chmod a+x /etc/sv/*/run /etc/sv/*/finish
