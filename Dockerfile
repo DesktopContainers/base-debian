@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:latest
 
 MAINTAINER MarvAmBass (https://github.com/DesktopContainers)
 
@@ -8,6 +8,7 @@ RUN apt-get -q -y update \
  && apt-get -q -y install runit \
                           rsyslog \
                           wget \
+                          nano \
                           python \
                           python-numpy \
                           \
@@ -15,6 +16,7 @@ RUN apt-get -q -y update \
                           tigervnc-standalone-server \
                           \
                           mate-desktop-environment \
+                          firefox-esr \
                           tmux \
  && apt-get -q -y clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
