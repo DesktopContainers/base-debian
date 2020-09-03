@@ -108,18 +108,21 @@ EOF
   ###
 
   echo ">> RUNIT - create services"
-  mkdir -p /etc/sv/rsyslog /etc/sv/sshd /etc/sv/tigervnc /etc/sv/websockify /etc/sv/websockify-ssl
+  mkdir -p /etc/sv/rsyslog /etc/sv/sshd /etc/sv/xvfb /etc/sv/simpleproxy /etc/sv/x11vnc /etc/sv/websockify /etc/sv/websockify-ssl
   echo -e '#!/bin/sh\nexec /usr/sbin/rsyslogd -n' > /etc/sv/rsyslog/run
     echo -e '#!/bin/sh\nrm /var/run/rsyslogd.pid' > /etc/sv/rsyslog/finish
 	echo -e "#!/bin/sh\nexec /usr/sbin/sshd -D" > /etc/sv/sshd/run
-	echo -e "#!/bin/sh\nexec /bin/su -s /bin/sh -c \"vncserver :1 -SecurityTypes none -depth 24 -fg --I-KNOW-THIS-IS-INSECURE\" app" > /etc/sv/tigervnc/run
-  echo -e "#!/bin/sh\nexec /opt/websockify/run 443 --web /opt/novnc/ --ssl-only --cert /config/ssl-cert.crt --key /config/ssl-cert.key localhost:5901" > /etc/sv/websockify-ssl/run
-  echo -e "#!/bin/sh\nexec /opt/websockify/run 80 --web /opt/novnc/ localhost:5901" > /etc/sv/websockify/run
+	echo -e '#!/bin/sh\nsleep 1\nexec /bin/su -l -s /bin/sh -c "Xvfb" app' > /etc/sv/xvfb/run
+	echo -e '#!/bin/sh\nsleep 7\nexec /bin/su -l -s /bin/sh -c "x11vnc -localhost -forever -display :0" app' > /etc/sv/x11vnc/run
+	echo -e '#!/bin/sh\nsleep 7\nexec /bin/su -l -s /bin/sh -c "simpleproxy -L 0.0.0.0:5901 -R 127.0.0.1:5900" app' > /etc/sv/simpleproxy/run
+  echo -e "#!/bin/sh\nexec /opt/websockify/run 443 --web /usr/share/novnc/ --ssl-only --cert /config/ssl-cert.crt --key /config/ssl-cert.key localhost:5900" > /etc/sv/websockify-ssl/run
+  echo -e "#!/bin/sh\nexec /opt/websockify/run 80 --web /usr/share/novnc/ localhost:5900" > /etc/sv/websockify/run
   chmod a+x /etc/sv/*/run /etc/sv/*/finish
 
   echo ">> RUNIT - enable services"
 	echo "  >> enabling rsyslog"
   ln -s /etc/sv/rsyslog /etc/service/rsyslog
+  ln -s /etc/sv/xvfb /etc/service/xvfb
 
 	if [ -z ${DISABLE_SSHD+x} ]; then
 		echo "  >> enabling sshd"
@@ -127,9 +130,9 @@ EOF
   fi
 
 	if [ -z ${DISABLE_VNC+x} ]; then
-		echo "  >> enabling tigervnc"
-		sed -i 's/^1;/$localhost = "no";\n1;/g' /etc/vnc.conf
-	  ln -s /etc/sv/tigervnc /etc/service/tigervnc
+		echo "  >> enabling vnc"
+	  ln -s /etc/sv/x11vnc /etc/service/x11vnc
+	  ln -s /etc/sv/simpleproxy /etc/service/simpleproxy
 		if [ -z ${DISABLE_WEBSOCKIFY+x} ]; then
 			echo "  >> enabling websockify"
 			ln -s /etc/sv/websockify /etc/service/websockify

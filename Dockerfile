@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:10
 
 MAINTAINER MarvAmBass (https://github.com/DesktopContainers)
 
@@ -12,7 +12,12 @@ RUN apt-get -q -y update \
                           python-numpy \
                           \
                           openssh-server \
-                          tigervnc-standalone-server \
+                          x11vnc \
+                          xvfb \
+                          openbox \
+                          novnc \
+                          websockify \
+                          simpleproxy \
                           \
                           mate-desktop-environment \
                           tmux \
@@ -26,16 +31,9 @@ RUN apt-get -q -y update \
  && echo '*.*        /dev/stdout' >> /etc/rsyslog.conf \
  && sed -i '/.*imklog*/d' /etc/rsyslog.conf \
  \
- && echo ">> NoVNC" \
- && wget https://github.com/novnc/noVNC/archive/v0.6.2.tar.gz -O /novnc.tar.gz \
- && tar xvf /novnc.tar.gz \
- && mv /noVNC* /opt/novnc \
- && cp /opt/novnc/vnc_auto.html /opt/novnc/index.html \
- \
- && echo ">> Websockify" \
- && wget https://github.com/novnc/websockify/archive/v0.8.0.tar.gz -O /websockify.tar.gz \
- && tar xvf /websockify.tar.gz \
- && mv /websockify-* /opt/websockify \
+ && mkdir -p /etc/websockify \
+ && cp /usr/share/novnc/vnc_auto.html /usr/share/novnc/index.html \
+ && chmod a+r /usr/share/novnc/ /etc/websockify/ -R \
  \
  && echo ">> SSHD" \
  && mkdir -p /var/run/sshd \
