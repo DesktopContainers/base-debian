@@ -1,6 +1,6 @@
 # Debian VNC/Websockify/SSH Desktopcontainers Base Image
 
-A dockerfile that builds debian latest with VNC, websockify and ssh Server and firefox-esr
+A dockerfile that builds debian:10 with VNC, websockify and ssh Server
 
 This is build as base image for various desktop applications.
 
