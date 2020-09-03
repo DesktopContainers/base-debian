@@ -7,7 +7,7 @@ This is build as base image for various desktop applications.
 The applications will be available as VNC, Websockify VNC, Web (noVNC), SSH or Host X11.
 You can change the behaviour via environment variables. So the User can decide how he wants to use the application.
 
-Base image: _/debian:latest_
+Base image: _/debian:10_
 Because I want an up to date base system which runs nearly anything and everywhere.
 
 # Environment variables and defaults
