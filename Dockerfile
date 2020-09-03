@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:10
 
 MAINTAINER MarvAmBass (https://github.com/DesktopContainers)
 
