@@ -3,7 +3,7 @@
 This container is created, to make it easy to use Desktop Applications on Systems that can run Docker Containers.
 It is based on `_/debian` and comes with various way to use your X11 applications:
 
-I recommend using the `desktopcontainers/base-alpine` if possible. Only if you really need debian as base image, use this container.
+I recommend using the [desktopcontainers/base-alpine](https://github.com/DesktopContainers/base-alpine) if possible. Only if you really need debian as base image, use this container.
 
 - VNC (port: `5900`, no password)
 - HTTP VNC (port: `80`, no password)
