@@ -1,0 +1,2 @@
+#!/bin/sh
+exec haproxy -f /container/config/haproxy/haproxy.cfg 

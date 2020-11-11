@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /bin/su -l -s /bin/sh -c "exec x11vnc -localhost -autoport 4900 -forever -display :0" app

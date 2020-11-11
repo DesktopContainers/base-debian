@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /bin/su -l -s /bin/sh -c "cd /websockify/; exec python -m websockify 8080 --web /novnc/ localhost:4900" app

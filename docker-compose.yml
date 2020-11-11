@@ -1,0 +1,19 @@
+version: '3'
+ 
+services:
+  desktop-base:
+    build: .
+    image: desktopcontainers/base-debian
+    restart: always
+    environment:
+      SERVER_NAME: localhost
+
+      #ENABLE_SUDO: enable
+      #ENABLE_KIOSK: enable
+    volumes:
+      - ./certs:/certs
+    ports:
+      - "2222:22"
+      - "8088:80"
+      - "4443:443"
+      - "5900:5900"

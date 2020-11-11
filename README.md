@@ -1,79 +1,127 @@
-# Debian VNC/Websockify/SSH Desktopcontainers Base Image
+# Base Image for Desktop Applications on lightweight OpenBox Window Manager - (desktopcontainers/base-debian) [x86 + arm]
 
-A dockerfile that builds debian:10 with VNC, websockify and ssh Server
+This container is created, to make it easy to use Desktop Applications on Systems that can run Docker Containers.
+It is based on `_/debian` and comes with various way to use your X11 applications:
 
-This is build as base image for various desktop applications.
+I recommend using the `desktopcontainers/base-alpine` if possible. Only if you really need debian as base image, use this container.
 
-The applications will be available as VNC, Websockify VNC, Web (noVNC), SSH or Host X11.
-You can change the behaviour via environment variables. So the User can decide how he wants to use the application.
+- VNC (port: `5900`, no password)
+- HTTP VNC (port: `80`, no password)
+- HTTPS VNC (port: `443`, no password)
+- SSH X11 Forwarding (user: `app`, no password)
+    * use it with `ssh -X -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no app@127.0.0.1 -p 2222 /container/scripts/app` (exported port `22` to `2222` on localhost)
+    * use it with `ssh -X -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no app@<CONTAINER IP ADRESS> /container/scripts/app`
 
-Base image: _/debian:10_
-Because I want an up to date base system which runs nearly anything and everywhere.
+## Changelogs
 
-# Environment variables and defaults
+* 2020-11-11
+    * complete rework
+* 2020-11-10
+    * added kiosk mode
+    * `VNC_SCREEN_DEPTH` support
+* 2020-11-09
+    * initial creation on debian
 
-- __DISABLE\_SSHD__
-    - set this to any value e.g. true to disable SSHD -> Port 22
-    - _ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -X root@$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' containername) [...]_
-- __DISABLE\_VNC__
-    - set this to any value e.g. true to disable VNC Server -> Port 5901
-- __DISABLE\_WEBSOCKIFY__
-    - set this to any value e.g. true to disable Websockify Server -> Port http 80 or https 443
-    - just open a webbrowser and connect to the container
+## Environment variables and defaults
 
-- __ENABLE\_SUDO__
-    - set this to _enable_ to allow the user to use sudo
-    - default: not set
+### General
 
-- __VNC\_SCREEN\_RESOLUTION__
-    - set this to a specific resolution like '1280x1024' if you want a specific default one (can also be changed at runtime)
-    - default: not set
-    - possible values:
-        - 640x480
-        - 800x600
-        - 1024x768
-        - 1280x1024
-        - 1280x720
-        - 1280x800
-        - 1280x960
-        - 1360x768
-        - 1400x1050
-        - 1600x1200
-        - 1680x1050
-        - 1900x1200
-        - 1920x1080
-        - 1920x1200
+*  __SERVER\_NAME__
+    * _optional_ dns name for certificate generation
+    * _default:_ `localhost`
 
-## Websockify SSL
+* __ENABLE\_SUDO__
+    * set this to _enable_ to allow the user to use sudo
+    * default: not set
 
-to use a custom ssl certificate just add them as files:
+* __ENABLE\_KIOSK__
+    * set this to _enable_ to enable Kiosk mode
+        * only run `app` and make sure it will always restart
+        * it is advised to not combine with `ENABLE_SUDO` - but it's still possible to use with sudo enabled.
+    * default: not set
+    * perfect for (fullscreen) software like `rdesktop`, `vncviewer`, Browser etc.
 
-- /config/
-    - ssl-cert.crt
-    - ssl-cert.key
+### VNC Settings
 
-If you don't provide any certificate, a self signed cert will be created on container start.
+* __VNC\_SCREEN\_DEPTH__
+    * set the screen depth for the xfvb x-server
+    * default: `8`
+    * other possible values:
+        * 8
+        * 16
+        * 24
 
-## Proxy Environment variables and defaults
+* __VNC\_SCREEN\_RESOLUTION__
+    * set this to a specific resolution like '1280x1024' if you want a specific default one
+    * default: `1280x1024`
+    * depth is configured with `VNC_SCREEN_DEPTH` env
+    * other possible values:
+        * 640x480
+        * 800x600
+        * 1024x768
+        * 1280x1024
+        * 1280x720
+        * 1280x800
+        * 1280x960
+        * 1360x768
+        * 1400x1050
+        * 1600x1200
+        * 1680x1050
+        * 1900x1200
+        * 1920x1080
+        * 1920x1200
 
-- __HTTP\_PROXY__
-    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTP_PROXY and http_proxy
-- __HTTPS\_PROXY__
-    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables HTTPS_PROXY and https_proxy
-- __FTP\_PROXY__
-    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables FTP_PROXY and ftp_proxy
-- __NO\_PROXY__
-    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy variables NO_PROXY and no_proxy
-- __APT\_PROXY__
-    - set this to a value like 'http://yourproxyaddress:proxyport' to enable proxy inside apt configuration
+## Volumes
 
+* __/certs/__
+    * store your certs with the `$SERVER_NAME`.[key|crt] here.
+    * store your ssh host key `ssh_host_rsa_key` & `ssh_host_rsa_key.pub` here.
+    * if they are missing, they get created
 
-# Usage
+## FAQ
 
-Run the container with this command:
+* use X11 Forwarding on a new macOS
+    * install XQuartz (https://www.xquartz.org/)
+    * add `XAuthLocation /usr/X11/bin/xauth` to your `~/.ssh/config`
 
-    docker run -d --name debian-base-system -p 5901:5901 -p 80:80 -p 443:443 desktopcontainers/base-debian
+## API
 
-Connect to the container.  In the vnc connection string, type this:
+If you wan't to use this container as base for your own containerized Desktop Applications, you can use the following informations to get it done.
 
-"localhost:1"
+It's best to configure everything in a Dockerfile and not at runtime.
+
+### Your custom Application
+
+add all your code used for starting your application/s to `/container/scripts/app`.
+
+_Note:_ There are applications which get in trouble running in multiple instances.
+Since your Application get's started on container start on the VNC X11 Server, it might collide with the one
+which is started via SSH. If your application can only run once, make sure the `app` script kills all other instances before starting a new instance.
+
+### Init Points
+
+Add commands to init phase of of entrypoint (only on first run/creation).
+
+```
+sed -i 's/# INIT PHASE/# INIT PHASE\nYOUR_COMMANDS_HERE/g' /container/scripts/entrypoint.sh
+```
+
+Add commands to run phase of of entrypoint (on every run).
+
+```
+sed -i 's/# PRE-RUN PHASE/# PRE-RUN PHASE\nYOUR_COMMANDS_HERE/g' /container/scripts/entrypoint.sh
+```
+
+### Openbox Menu
+
+Rename Menu Entry
+
+```
+sed -i 's/Application/NEW_ENTRY_NAME/g' /etc/xdg/openbox/menu.xml
+```
+
+Add Menu Entry
+
+```
+sed -i '0,/<item/ s,,<item label="NEW_ENTRY_NAME"><action name="Execute"><execute>NEW_ENTRY_COMMAND</execute></action></item>\n<item,' /etc/xdg/openbox/menu.xml
+```

@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z ${SERVER_NAME+x} ] && export SERVER_NAME="localhost"
+exec /bin/su -l -s /bin/sh -c "cd /websockify/; exec python -m websockify 4443 --web /novnc/ --ssl-only --cert /certs/$SERVER_NAME.crt --key /certs/$SERVER_NAME.key localhost:4900" app
