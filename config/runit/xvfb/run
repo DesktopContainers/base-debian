@@ -1,4 +1,4 @@
 #!/bin/sh
-[ -z ${VNC_SCREEN_DEPTH+x} ] && export VNC_SCREEN_DEPTH="8"
+[ -z ${VNC_SCREEN_DEPTH+x} ] && export VNC_SCREEN_DEPTH="24"
 [ -z ${VNC_SCREEN_RESOLUTION+x} ] && export VNC_SCREEN_RESOLUTION="1280x1024"
 exec /bin/su -l -s /bin/sh -c "exec Xvfb -screen 0 $VNC_SCREEN_RESOLUTION""x""$VNC_SCREEN_DEPTH" app

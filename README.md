@@ -14,6 +14,8 @@ I recommend using the [desktopcontainers/base-alpine](https://github.com/Desktop
 
 ## Changelogs
 
+* 2020-11-12
+    * default `VNC_SCREEN_DEPTH` to `24`
 * 2020-11-11
     * complete rework
 * 2020-11-10
@@ -45,7 +47,7 @@ I recommend using the [desktopcontainers/base-alpine](https://github.com/Desktop
 
 * __VNC\_SCREEN\_DEPTH__
     * set the screen depth for the xfvb x-server
-    * default: `8`
+    * default: `24`
     * other possible values:
         * 8
         * 16

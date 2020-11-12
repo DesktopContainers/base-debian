@@ -2,7 +2,8 @@ FROM debian:buster
 
 ENV PATH="/container/scripts:${PATH}"
 
-RUN apt-get -q -y update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get -q -y update \
  && apt-get -q -y install runit \
                        \
                        xvfb \
@@ -20,6 +21,9 @@ RUN apt-get -q -y update \
                        sed \
                        wget \
                        rsyslog \
+ \
+ && apt-get -q -y clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  \
  && ln -s /usr/bin/python3 /usr/bin/python \
  \
