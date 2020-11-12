@@ -5,6 +5,8 @@ It is based on `_/debian` and comes with various way to use your X11 application
 
 I recommend using the [desktopcontainers/base-alpine](https://github.com/DesktopContainers/base-alpine) if possible. Only if you really need debian as base image, use this container.
 
+The main reason to create this `debian` based desktop container was to support commercial software e.g. citrix icaclient, zoom etc. those often don't support the `musl`-libc and have problems running on alpine. Also those containers/software are often only `x86` compatible.
+
 - VNC (port: `5900`, no password)
 - HTTP VNC (port: `80`, no password)
 - HTTPS VNC (port: `443`, no password)
