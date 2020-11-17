@@ -14,8 +14,3 @@ manifests:
       architecture: arm
       os: linux
       variant: v7
-  - image: desktopcontainers/base-debian:latest-arm32v6
-    platform:
-      architecture: arm
-      os: linux
-      variant: v6
