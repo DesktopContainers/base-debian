@@ -16,6 +16,8 @@ The main reason to create this `debian` based desktop container was to support c
 
 ## Changelogs
 
+* 2020-11-24
+    * fixed failing arm builds on debian
 * 2020-11-12
     * default `VNC_SCREEN_DEPTH` to `24`
 * 2020-11-11
