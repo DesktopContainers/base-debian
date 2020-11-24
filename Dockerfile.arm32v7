@@ -12,11 +12,12 @@ ENV PATH="/container/scripts:${PATH}"
 
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get -q -y update \
- && apt-get -q -y install runit \
+ && apt-get -q -y install --no-install-recommends runit \
                        \
                        xvfb \
                        x11vnc \
-                       openbox \
+                       \
+ && apt-get -q -y install openbox \
                        ttf-dejavu \
                        \
                        haproxy \
