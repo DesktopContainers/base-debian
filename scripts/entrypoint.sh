@@ -15,6 +15,9 @@ INITALIZED="/.initialized"
 
 if [ ! -f "$INITALIZED" ]; then
   echo ">> CONTAINER: starting initialisation"
+  
+  echo ">> CONTAINER: added environment vars to /etc/environment"
+  env >> /etc/environment
 
   cp /container/config/openbox/menu.xml /etc/xdg/openbox/menu.xml
 
