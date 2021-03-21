@@ -15,7 +15,7 @@ The main reason to create this `debian` based desktop container was to support c
     * use it with `ssh -X -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no app@<CONTAINER IP ADRESS> /container/scripts/app`
 - Local Native X11
     - start container using `docker run --rm -ti -v "/tmp/.X11-unix:/tmp/.X11-unix" -v "$HOME/.Xauthority:/home/app/.Xauthority" -e "DISPLAY=$DISPLAY" -h $HOSTNAME --net=host --entrypoint=/container/scripts/app --user=app desktopcontainer/...`
-    - 
+
 ## Changelogs
 
 * 2020-11-24
