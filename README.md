@@ -13,7 +13,9 @@ The main reason to create this `debian` based desktop container was to support c
 - SSH X11 Forwarding (user: `app`, no password)
     * use it with `ssh -X -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no app@127.0.0.1 -p 2222 /container/scripts/app` (exported port `22` to `2222` on localhost)
     * use it with `ssh -X -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no app@<CONTAINER IP ADRESS> /container/scripts/app`
-
+- Local Native X11
+    - start container using `docker run --rm -ti -v "/tmp/.X11-unix:/tmp/.X11-unix" -v "$HOME/.Xauthority:/home/app/.Xauthority" -e "DISPLAY=$DISPLAY" -h $HOSTNAME --net=host --entrypoint=/container/scripts/app --user=app desktopcontainer/...`
+    - 
 ## Changelogs
 
 * 2020-11-24
